@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { AuthButton } from "../Buttons/AuthButton/AuthButton";
+import { profileURL, storageURL } from "../../URLs/urls";
 
 export const PageNav = () => {
   return (
@@ -9,10 +10,10 @@ export const PageNav = () => {
           <NavLink to="/">Главная</NavLink>
         </li>
         <li>
-          <NavLink to="/storage">Хранилище</NavLink>
+          <NavLink to={storageURL}>Хранилище</NavLink>
         </li>
         <li>
-          <NavLink to="profile">Профиль</NavLink>
+          <NavLink to={profileURL}>Профиль</NavLink>
         </li>
       </ul>
     </>

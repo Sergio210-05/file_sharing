@@ -32,6 +32,17 @@ export const LinkItem = ({title, link}) => {
   )
 };
 
+export const LinkItemAction = ({title, link, click}) => {
+  return (
+    <ul className="nonemark">
+      <li>
+        <NavLink to={link} onClick={click}>{title}</NavLink>
+        {/* <a href={link} onClick={click}>{title}</a> */}
+      </li>
+    </ul>
+  )
+};
+
 // const navInstance = (
 //   <Nav bsStyle="pills" activeKey={1} onSelect={handleSelect}>
 //     <NavItem eventKey={1} href="/home">NavItem 1 content</NavItem>

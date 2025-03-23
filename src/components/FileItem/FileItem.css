@@ -1,0 +1,59 @@
+.table {
+	display: table;
+	width: 100%;
+	box-sizing: border-box;
+	border-collapse: collapse;
+	border: 1px solid #555;
+	empty-cells: show; 
+}
+.table-caption {
+	display: table-caption;
+	padding: 10px;
+	color: #333;
+	font-size: 16px;
+	text-align: center;
+}
+.table-colgroup {
+	display: table-column-group;
+}
+.table-col {
+	display: table-column;
+}
+.table-thead {
+	display: table-header-group;
+}
+.table-tbody {
+	display: table-row-group;
+}
+.table-tfoot {
+	display: table-footer-group;
+}
+.table-tr {
+	display: table-row;
+}
+.table-th {
+	display: table-cell;
+	padding: 10px;
+	border: 1px solid #555;
+	font-weight: bold;
+	text-align: left;
+}
+.table-td {
+	display: table-cell;
+	padding: 10px;
+	border: 1px solid #555;
+}
+.table-thead .table-th, .table-thead .table-td {
+	background: #f9f9f9;
+}
+.table-tbody .table-th, .table-tbody .table-td {
+	background: #fff;
+}
+.table-tfoot .table-th, .table-tfoot .table-td {
+	background: #f4f6ff;
+}
+.file__item__button {
+  width: 99%;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
