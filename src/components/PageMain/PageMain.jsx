@@ -6,7 +6,8 @@ import { RegistrationPage } from '../Pages/RegistrationPage/RegistrationPage';
 import { ProfilePage } from '../ProfilePage/ProfilePage';
 import { serverURL, mainURL, csrfURL, loginURL, logoutURL,
    sessionURL, registrationURL, profileURL, storageURL, 
-   adminURL, adminUserStorageURL, 
+   adminURL, adminUserStorageURL,
+   downloadURL, 
 } from "../../URLs/urls"
 import { useDispatch, useSelector } from 'react-redux';
 import { succesAuth, succesLogout } from '../../redux/slices';
@@ -16,18 +17,14 @@ import { changeLogin, changePassword } from '../../utils';
 import { StoragePage } from '../Pages/StoragePage/StoragePage';
 import { AdminPage } from '../Pages/AdminPage/AdminPage';
 import { ManageUserStorage } from '../Pages/ManageUserStorage/ManageUserStorage';
+import { DownloadPage } from '../Pages/DownloadPage/DownloadPage';
 
 export const PageMain = ({user, isAuth}) => {
 
   const [inpCsrf, setInpCsrf] = useState(null)
   const [inpLogin, setInpLogin] = useState('')
   const [inpPassword, setInpPassword] = useState('')
-  // const [inpError, setInpError] = useState(null)
-  // // const [inpAuth, setIsAuth] = useState(false)
-  // const [username, setUsername] = useState('')
-  // const [userId, setUserId] = useState(null)
   const dispatch = useDispatch();
-  // const { isAuth } = useSelector((state) => state.authReducer)
 
   useEffect(() => {
     getSession()
@@ -42,10 +39,10 @@ export const PageMain = ({user, isAuth}) => {
   const getCSRF = () => {
     axios.get(serverURL + csrfURL, { withCredentials: true })
     .then((res) => {
-        isResponseOk(res)
-
-        const csrfToken = res.headers.get('X-CSRFToken')
-        setInpCsrf(csrfToken)
+      console.log('Запрос токена')
+      isResponseOk(res)
+      const csrfToken = res.headers.get('X-CSRFToken')
+      setInpCsrf(csrfToken)
     })
     .catch((err) => console.error(err))
 }
@@ -53,17 +50,15 @@ export const PageMain = ({user, isAuth}) => {
   const getSession = () => {
     axios.get(serverURL + sessionURL, { withCredentials: true })
     .then((res) => {
-        if (res.data.isAuth) {
-          // setUserId(res.data.user_id)
-          // setUsername(res.data.username)
-          const data = res.data
-          // console.log(data)
-          dispatch(succesAuth(data))
-          return
-        }
+      console.log('Проверка сессии')
+      if (res.data.isAuth) {
+        const data = res.data
+        dispatch(succesAuth(data))
+        return
+      }
 
-        dispatch(succesLogout())
-        getCSRF()
+      dispatch(succesLogout())
+      getCSRF()
     })
     .catch((err) => {
       console.error(err)
@@ -83,14 +78,6 @@ export const PageMain = ({user, isAuth}) => {
       console.log(err.response.data.detail);
     })
   }
-  
-  // const changeLogin = (e) => {
-  //   setInpLogin(e.target.value)
-  //   console.log(inpLogin)
-  // }
-  // const changePassword = (e) => {
-  //   setInpPassword(e.target.value)
-  // }
 
   const submitForm = (e, handler) => {
     e.preventDefault()
@@ -105,21 +92,18 @@ export const PageMain = ({user, isAuth}) => {
         <Route path={loginURL} element={<LoginPage 
           serverURL={serverURL} 
           user={user}
-          // changeLogin={changeLogin} 
-          // changePassword={changePassword} 
           />}/>
 
         <Route path={registrationURL} element={<RegistrationPage 
           serverURL={serverURL} 
-          // changeLogin={changeLogin} 
-          // changePassword={changePassword} 
           />}/>
 
         <Route path={logoutURL} element={<LogoutPage />} />
         <Route path={profileURL} element={<ProfilePage />} />
-        <Route path={storageURL} element={<StoragePage />} />
+        <Route path={storageURL} element={<StoragePage memberId={user.id}/>} />
         <Route path={adminURL} element={<AdminPage />}/>
         <Route path={adminUserStorageURL + ':id/'} element={<ManageUserStorage />}/>
+        <Route path={downloadURL + ':storageTitle/'} element={<DownloadPage />}/>
       </Routes>
     </>
   )

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import './FileItem.css'
-import { serverURL, storageURL } from '../../URLs/urls'
+import { baseURL, downloadURL, serverURL, storageURL } from '../../URLs/urls'
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { getCSRF } from '../../utils'
@@ -97,6 +97,11 @@ export const FileItem = ({fileData}) => {
     })
   }
 
+  const copyLinkHandler = () => {
+    navigator.clipboard.writeText(baseURL + downloadURL + storage_title)
+    alert('Ссылка скопирована')
+  }
+
   const testHandler = () => {
     console.log('Тестовая отправка')
     console.log(newFileName)
@@ -129,6 +134,7 @@ export const FileItem = ({fileData}) => {
         <div className='table-th'>
           <button className='file__item__button' onClick={downloadFileHandler}>Скачать</button>
           <button className='file__item__button' onClick={openModal}>Переименовать</button>
+          <button className='file__item__button' onClick={copyLinkHandler}>Сформировать ссылку</button>
           <button className='file__item__button' onClick={deleteFileHandler}>Удалить</button>
         </div>
         <Modal isOpen={modalIsOpen} onRequestClose={closeModal} appElement={document.getElementById('app')}>

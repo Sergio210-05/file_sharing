@@ -5,15 +5,12 @@ import { useEffect, useState } from 'react'
 import { serverURL, storageURL } from '../../URLs/urls'
 import { getCSRF } from '../../utils'
 
-export const UploadItem = () => {
+export const UploadItem = ({ memberId=0 }) => {
 
   const [selectedFile, setSelectedFile] = useState(null)
   const [isCsrf, setIsCsrf] = useState(null)
   let comment = ''
 
-  // if (!isCsrf) {
-  //   getCSRF(setIsCsrf)
-  // }
   useEffect(() => {
     getCSRF(setIsCsrf)
   }, [])
@@ -35,6 +32,9 @@ export const UploadItem = () => {
       FileFormData.append("file", selectedFile)
       FileFormData.append("original_title", selectedFile.name)
       FileFormData.append("comment", comment)
+      if (memberId) {
+        FileFormData.append("member_id", memberId)
+      }
       console.log(FileFormData)
   
       await axios.post(serverURL + storageURL, FileFormData, { 
@@ -46,6 +46,8 @@ export const UploadItem = () => {
       })
       .then(res => {
         console.log(res.data)
+        window.location.reload();
+        console.log('Файл загружен в хранилище')
       })
       .catch(err => {
         console.error(err)

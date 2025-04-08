@@ -14,9 +14,11 @@ const adminUserStorageURL = '/api/admin/users/'
 const getUsersURL = '/api/get_all_users/'
 const changeAdminStatusURL = '/api/change_admin_status/'
 const removeUserURL = '/api/remove_user/'
+const baseURL = `${window.location.origin}`
+const downloadURL = '/api/download/'
 
 export { serverURL, mainURL, csrfURL, loginURL, logoutURL, 
   sessionURL, userInfoURL, removeSessionsURL, registrationURL, 
   profileURL, storageURL, adminURL, getUsersURL, changeAdminStatusURL,
-  removeUserURL, adminUserStorageURL,
+  removeUserURL, adminUserStorageURL, baseURL, downloadURL,
 }

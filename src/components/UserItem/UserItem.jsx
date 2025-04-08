@@ -42,8 +42,9 @@ export const UserItem = ({adminId, userData}) => {
         }
       })
       .then((res) => {
-        console.log(res.data.detail)
+        // console.log(res.data.detail)
         window.location.reload();
+        console.log(`Пользователь ${login} удалён`)
       })
       .catch((err) => {
         console.error(err);
@@ -68,8 +69,9 @@ export const UserItem = ({adminId, userData}) => {
         }
       })
       .then((res) => {
-        console.log(res.data.detail)
+        // console.log(res.data.detail)
         window.location.reload();
+        console.log(`Статус администратора ${isAdmin ? 'снят' : 'назначен'}`)
       })
       .catch((err) => {
         console.error(err);
@@ -79,7 +81,6 @@ export const UserItem = ({adminId, userData}) => {
   }
 
   const userStorageHandler = () => {
-    // console.log('userStorageHandler')
     navigate(adminUserStorageURL + id)
   }
 

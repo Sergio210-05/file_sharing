@@ -1,4 +1,4 @@
-import { serverURL, logoutURL, csrfURL, sessionURL } from "../URLs/urls";
+import { serverURL, logoutURL, csrfURL, sessionURL, userInfoURL } from "../URLs/urls";
 import { useDispatch } from "react-redux";
 import { succesAuth, succesLogout } from "../redux/slices";
 import axios from "axios";
@@ -13,10 +13,10 @@ export const isResponseOk = (res) => {
 export const getCSRF = (setIsCsrf) => {
   axios.get(serverURL + csrfURL, { withCredentials: true })
   .then((res) => {
-      isResponseOk(res)
-
-      const csrfToken = res.headers.get('X-CSRFToken')
-      setIsCsrf(csrfToken)
+    console.log('Запрос токена')
+    isResponseOk(res)
+    const csrfToken = res.headers.get('X-CSRFToken')
+    setIsCsrf(csrfToken)
   })
   .catch((err) => console.error(err))
 }
@@ -25,10 +25,7 @@ export const getSession = (setIsCsrf) => {
   axios.get(serverURL + sessionURL, { withCredentials: true })
   .then((res) => {
       if (res.data.isAuth) {
-          // setUserId(res.data.user_id)
-          // setUsername(res.data.username)
-          // dispatch(succesAuth(res.data))
-          return
+        return
       }
 
       // dispatch(succesLogout())
@@ -40,15 +37,19 @@ export const getSession = (setIsCsrf) => {
   })
 }
 
-export const getUserInfo = async (url) => {
-  await axios.get(serverURL + url, { 
+export const getUserInfo = async (id='', setMemberInfo=null) => {
+  await axios.get(serverURL + userInfoURL + id, { 
     withCredentials: true,
     headers: {
       "Content-Type": "application/json",
     }
   })
   .then((res) => {
-    console.log(res.data)
+    console.log('Получение данных о пользователе')
+    if (setMemberInfo) {
+      setMemberInfo(res.data.user)
+    }
+    
   })
   .catch((err) => {
     console.error(err)
@@ -73,9 +74,35 @@ export const logout = async () => {
     isResponseOk(res)
     const dispatch = useDispatch();
     dispatch(succesLogout());
+    console.log('Сессия завершена')
   })
   .catch((err) => {
     console.error(err)
     console.log(err.response.data.detail);
   })
 }
+
+export const validateForm = (data) => {
+  const errors = {};
+  const { username, password, email, fullName } = data
+
+  if (!username.trim()) {
+      errors.username = 'Поле логин обязательное!';
+  } else if (!/^[a-zA-Z][a-zA-Z\d]{3,19}$/.test(username)) {
+      errors.username = 'Логин болжен быть от 4 до 20 символов';
+  }
+
+  if (!email.trim()) {
+      errors.email = 'Поле Email обязательное!';
+  } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Введён некорректный email';
+  }
+
+  if (!password) {
+      errors.password = 'Поле пароль обязательное!';
+  } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s]).{6,}$/.test(password)) {
+      errors.password = 'Пароль ненадёжен';
+  }
+
+  return errors;
+};

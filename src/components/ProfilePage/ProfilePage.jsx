@@ -1,26 +1,19 @@
 import axios from "axios"
 import { profileURL, serverURL } from "../../URLs/urls"
+import { useSelector } from "react-redux"
+import { userSelector } from "../../redux/selectors"
 
 export const ProfilePage = () => {
 
-  const getUserInfo = async () => {
-    await axios.get(serverURL + profileURL, { 
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-    .then((res) => {
-      console.log(res.data)
-    })
-    .catch((err) => {
-      console.error(err)
-    })
-  }
-
-  getUserInfo()
+  const user = useSelector(userSelector)
+  const { id, email, fullName, login, isAdmin } = user
+  // console.log(user)
 
   return (
-    <div>ProfilePage</div>
+    <>
+      <div>Ваш логин: {login}</div>
+      <div>Ваш e-mail: {email}</div>
+      <div>Ваше имя: {fullName}</div>
+    </>
   )
 }

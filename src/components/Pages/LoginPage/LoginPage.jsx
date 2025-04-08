@@ -32,7 +32,7 @@ export const LoginPage = ({serverURL, user}) => {
   
 
   useEffect(() => {
-      getSession()
+    getSession()
   }, [])
   // getSession()
   // const { id, userName, fullName, email, isAdmin } = useSelector(userSelector)
@@ -47,10 +47,10 @@ export const LoginPage = ({serverURL, user}) => {
   const getCSRF = () => {
     axios.get(serverURL + csrfURL, { withCredentials: true })
     .then((res) => {
-        isResponseOk(res)
-
-        const csrfToken = res.headers.get('X-CSRFToken')
-        setIsCsrf(csrfToken)
+      console.log('Запрос токена')
+      isResponseOk(res)
+      const csrfToken = res.headers.get('X-CSRFToken')
+      setIsCsrf(csrfToken)
     })
     .catch((err) => console.error(err))
   }
@@ -58,15 +58,16 @@ export const LoginPage = ({serverURL, user}) => {
   const getSession = () => {
     axios.get(serverURL + sessionURL, { withCredentials: true })
     .then((res) => {
-        if (res.data.isAuth) {
-            // setUserId(res.data.user_id)
-            // setUsername(res.data.username)
-            dispatch(succesAuth(res.data))
-            return
-        }
+      console.log('Проверка сессии')
+      if (res.data.isAuth) {
+          // setUserId(res.data.user_id)
+          // setUsername(res.data.username)
+          dispatch(succesAuth(res.data))
+          return
+      }
 
-        dispatch(succesLogout())
-        getCSRF()
+      dispatch(succesLogout())
+      getCSRF()
     })
     .catch((err) => {
       console.error(err)
@@ -100,6 +101,7 @@ export const LoginPage = ({serverURL, user}) => {
       // const { id } = useSelector(userSelector)
       // console.log(id)
       navigate(mainURL)
+      console.log('Аутентификация выполнена успешно')
     })
     .catch((err) => {
       console.error(err);

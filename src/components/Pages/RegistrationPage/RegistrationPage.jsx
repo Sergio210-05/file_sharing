@@ -2,7 +2,7 @@ import './RegistrationPage.css'
 import React from 'react'
 import axios from 'axios'
 import { serverURL, registrationURL, logoutURL } from '../../../URLs/urls'
-import { changeLogin, changePassword, changeSth, logout, isResponseOk, getSession } from '../../../utils'
+import { changeLogin, changePassword, changeSth, logout, isResponseOk, getSession, validateForm } from '../../../utils'
 import { LinkItemAction } from '../../Buttons/AuthButton/AuthButton'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
@@ -26,13 +26,15 @@ export const RegistrationPage = () => {
 
   const registration = (data) => {
     // const data = { username: isLogin, password: isPassword, email: isEmail, fullName: isFullName }
-    axios.post(serverURL + registrationURL, data, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": isCsrf,
-      }
-    })
+    axios.post(serverURL + registrationURL, 
+      data, 
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": isCsrf,
+        }
+      })
     .then((res) => {
       isResponseOk(res)
       setIsLogin('')
@@ -42,6 +44,7 @@ export const RegistrationPage = () => {
       setIsError(null)
       setIsSuccessRegistration(true)
       console.log(res.data.detail)
+      console.log('Регистрация прошла успешно')
       
       // userInfo()
     })
@@ -52,30 +55,31 @@ export const RegistrationPage = () => {
     });
   }
 
-  const validateForm = (data) => {
-    const errors = {};
-    const { username, password, email, fullName } = data
+  // const validateForm = (data) => {
+  //   const errors = {};
+  //   const { username, password, email, fullName } = data
 
-    if (!username.trim()) {
-        errors.username = 'Поле логин обязательное!';
-    } else if (!/^[a-zA-Z][a-zA-Z\d]{3,19}$/.test(username)) {
-        errors.username = 'Логин болжен быть от 4 до 20 символов';
-    }
+  //   if (!username.trim()) {
+  //       errors.username = 'Поле логин обязательное!';
+  //   } else if (!/^[a-zA-Z][a-zA-Z\d]{3,19}$/.test(username)) {
+  //       errors.username = 'Логин болжен быть от 4 до 20 символов';
+  //   }
 
-    if (!email.trim()) {
-        errors.email = 'Поле Email обязательное!';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-        errors.email = 'Введён некорректный email';
-    }
+  //   if (!email.trim()) {
+  //       errors.email = 'Поле Email обязательное!';
+  //   } else if (!/\S+@\S+\.\S+/.test(email)) {
+  //       errors.email = 'Введён некорректный email';
+  //   }
 
-    if (!password) {
-        errors.password = 'Поле пароль обязательное!';
-    } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s]).{6,}$/.test(password)) {
-        errors.password = 'Пароль ненадёжен';
-    }
+  //   if (!password) {
+  //       errors.password = 'Поле пароль обязательное!';
+  //   } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s]).{6,}$/.test(password)) {
+  //       errors.password = 'Пароль ненадёжен';
+  //   }
 
-    return errors;
-  };
+  //   return errors;
+  // };
+  
 
   const submitForm = (e) => {
     e.preventDefault()

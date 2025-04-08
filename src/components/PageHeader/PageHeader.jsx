@@ -7,9 +7,8 @@ import { succesLogout } from '../../redux/slices';
 import { isAuthSelector, userSelector, loginSelector, fullNameSelector, isAdminSelector } from '../../redux/selectors';
 import { isResponseOk } from "../../utils";
 
-export const PageHeader = ({user, isAuth}) => {
+export const PageHeader = ({ user, isAuth }) => {
   const { login, fullName, isAdmin } = user;
-  const adminLink = `/${login}/admin`;
   const dispatch = useDispatch();
 
   const logout = async () => {
@@ -17,9 +16,6 @@ export const PageHeader = ({user, isAuth}) => {
     .then((res) => {
       isResponseOk(res)
       dispatch(succesLogout());
-      // getCSRF();
-      // const user = useSelector(userSelector)
-      // console.log(user)
     })
     .catch((err) => {
       console.error(err)
