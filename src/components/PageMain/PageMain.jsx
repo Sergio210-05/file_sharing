@@ -36,8 +36,8 @@ export const PageMain = ({user, isAuth}) => {
     }
   }
 
-  const getCSRF = () => {
-    axios.get(serverURL + csrfURL, { withCredentials: true })
+  const getCSRF = async () => {
+    await axios.get(serverURL + csrfURL, { withCredentials: true })
     .then((res) => {
       console.log('Запрос токена')
       isResponseOk(res)
@@ -59,19 +59,6 @@ export const PageMain = ({user, isAuth}) => {
 
       dispatch(succesLogout())
       getCSRF()
-    })
-    .catch((err) => {
-      console.error(err)
-      console.log(err.response.data.detail);
-    })
-  }
-
-  const logout = async () => {
-    await axios.get(serverURL + logoutURL, { withCredentials: true })
-    .then((res) => {
-      isResponseOk(res)
-      dispatch(succesLogout());
-      getCSRF();
     })
     .catch((err) => {
       console.error(err)

@@ -5,7 +5,7 @@ import { getUsersURL, serverURL } from '../../../URLs/urls'
 import axios from 'axios'
 import { UserItem } from '../../UserItem/UserItem'
 import { userSelector } from '../../../redux/selectors'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Modal from 'react-modal'
 import { NewUserItem } from '../../NewUserItem/NewUserItem'
 
@@ -14,11 +14,8 @@ Modal.setAppElement('#root');
 export const AdminPage = () => {
 
   const [users, setUsers] = useState([])
-  // const dispatch = useDispatch();
-  // const isAuth = useSelector(isAuthSelector)
   const selfId = useSelector(userSelector).id
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  // console.log(selfId)
 
   useEffect(() => {
     getUsers()
@@ -52,12 +49,6 @@ export const AdminPage = () => {
 
   const modalContent = (
     <NewUserItem
-    // id={id} 
-    // title={original_title} 
-    // comment={comment} 
-    // setNewFileName={setNewFileName} 
-    // setNewComment={setNewComment}
-    // submitHandler={changeFileNameHandler}
     cancel={closeModal}
     />
   );

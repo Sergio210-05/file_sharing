@@ -23,8 +23,6 @@ export const FileNameChangeItem = ({id, title, comment, setNewFileName, setNewCo
   }
 
   const submitNewData = () => {
-    // setNewFileName(newFileName)
-    // setNewComment(newComment)
     console.log(newFileName)
     submitHandler(newFileName, newComment)
   }
@@ -47,7 +45,6 @@ export const FileNameChangeItem = ({id, title, comment, setNewFileName, setNewCo
         <div className="form-change-field">
           <button onClick={submitNewData}>Сохранить изменения</button>
           <button onClick={cancel}>Отмена</button>
-          {/* <button onClick={testSubmit}>Сохранить изменения</button> */}
         </div>
       </form>
     </div>

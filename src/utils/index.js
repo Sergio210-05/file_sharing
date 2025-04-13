@@ -10,8 +10,8 @@ export const isResponseOk = (res) => {
   }
 }
 
-export const getCSRF = (setIsCsrf) => {
-  axios.get(serverURL + csrfURL, { withCredentials: true })
+export const getCSRF = async (setIsCsrf) => {
+  await axios.get(serverURL + csrfURL, { withCredentials: true })
   .then((res) => {
     console.log('Запрос токена')
     isResponseOk(res)
@@ -21,8 +21,8 @@ export const getCSRF = (setIsCsrf) => {
   .catch((err) => console.error(err))
 }
 
-export const getSession = (setIsCsrf) => {
-  axios.get(serverURL + sessionURL, { withCredentials: true })
+export const getSession = async (setIsCsrf) => {
+  await axios.get(serverURL + sessionURL, { withCredentials: true })
   .then((res) => {
       if (res.data.isAuth) {
         return
@@ -106,3 +106,25 @@ export const validateForm = (data) => {
 
   return errors;
 };
+
+export const getCsrfTokenFromCookie = () => {
+  const cookieValue = document.cookie.split('; ')
+    .find(row => row.startsWith('csrftoken='))
+    .split('=')[1];
+  return cookieValue;
+}
+
+export const getCookie = (name) => {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';')
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = jQuery.trim(cookies[i])
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}

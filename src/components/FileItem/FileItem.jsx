@@ -3,23 +3,25 @@ import './FileItem.css'
 import { baseURL, downloadURL, serverURL, storageURL } from '../../URLs/urls'
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal';
-import { getCSRF } from '../../utils'
+import { getCSRF, getCookie } from '../../utils'
 import { FileNameChangeItem } from '../FileNameChangeItem/FileNameChangeItem';
 
 Modal.setAppElement('#root');
 
-export const FileItem = ({fileData}) => {
+export const FileItem = ({fileData, csrfToken, resetFiles}) => {
   
   const { id, original_title, storage_title, size, upload_date, last_download, owner, link, file, comment } = fileData
 
-  const [isCsrf, setIsCsrf] = useState(null)
   const [newFileName, setNewFileName] = useState('')
   const [newComment, setNewComment] = useState('')
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  useEffect(() => {
-    getCSRF(setIsCsrf)
-  }, [])
+  // const csrfToken = getCookie('csrftoken')
+  // console.log(csrfToken)
+
+  // useEffect(() => {
+  //   getCSRF(setIsCsrf)
+  // }, [])
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -37,11 +39,13 @@ export const FileItem = ({fileData}) => {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": isCsrf,
+          "X-CSRFToken": csrfToken,
         }
       })
       .then((res) => {
-        console.log(res.data.detail)
+        console.log('Файл удалён')
+        // console.log(res)
+        resetFiles()
       })
       .catch((err) => {
         console.error(err);
@@ -51,13 +55,11 @@ export const FileItem = ({fileData}) => {
   }
 
   const downloadFileHandler = async () => {
-    // await axios.get(serverURL + storageURL + `?storage_title=${storage_title}`, {
       await axios.get(serverURL + storageURL + `${id}/`, {
       withCredentials: true,
       responseType: 'blob',
       headers: {
         "Content-Type": "application/json",
-        // "Content-Type": "multipart/form-data",
       },
     })
     .then((res) => {
@@ -86,11 +88,13 @@ export const FileItem = ({fileData}) => {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
-        "X-CSRFToken": isCsrf,
+        "X-CSRFToken": csrfToken,
       },
     })
     .then((res) => {
-      console.log(res.data)
+      console.log('Параметры файла изменены')
+      // console.log(res.data)
+      resetFiles()
     })
     .catch((err) => {
       console.error(err)

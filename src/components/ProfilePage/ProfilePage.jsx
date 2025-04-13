@@ -7,7 +7,6 @@ export const ProfilePage = () => {
 
   const user = useSelector(userSelector)
   const { id, email, fullName, login, isAdmin } = user
-  // console.log(user)
 
   return (
     <>

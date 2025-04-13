@@ -25,7 +25,6 @@ export const RegistrationPage = () => {
   }, [])
 
   const registration = (data) => {
-    // const data = { username: isLogin, password: isPassword, email: isEmail, fullName: isFullName }
     axios.post(serverURL + registrationURL, 
       data, 
       {
@@ -45,8 +44,6 @@ export const RegistrationPage = () => {
       setIsSuccessRegistration(true)
       console.log(res.data.detail)
       console.log('Регистрация прошла успешно')
-      
-      // userInfo()
     })
     .catch((err) => {
       console.error(err);
@@ -55,43 +52,13 @@ export const RegistrationPage = () => {
     });
   }
 
-  // const validateForm = (data) => {
-  //   const errors = {};
-  //   const { username, password, email, fullName } = data
-
-  //   if (!username.trim()) {
-  //       errors.username = 'Поле логин обязательное!';
-  //   } else if (!/^[a-zA-Z][a-zA-Z\d]{3,19}$/.test(username)) {
-  //       errors.username = 'Логин болжен быть от 4 до 20 символов';
-  //   }
-
-  //   if (!email.trim()) {
-  //       errors.email = 'Поле Email обязательное!';
-  //   } else if (!/\S+@\S+\.\S+/.test(email)) {
-  //       errors.email = 'Введён некорректный email';
-  //   }
-
-  //   if (!password) {
-  //       errors.password = 'Поле пароль обязательное!';
-  //   } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s]).{6,}$/.test(password)) {
-  //       errors.password = 'Пароль ненадёжен';
-  //   }
-
-  //   return errors;
-  // };
-  
-
   const submitForm = (e) => {
     e.preventDefault()
     const data = { username: isLogin, password: isPassword, email: isEmail, fullName: isFullName }
     const newErrors = validateForm(data)
     setErrors(newErrors)
-    // console.log(data)
-    // console.log(errors)
-    // console.log(Object.keys(errors))
 
     if (Object.keys(newErrors).length === 0) {
-      // Form submission logic here
       console.log('Данные формы корректны')
       registration(data)
     } else {

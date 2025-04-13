@@ -37,16 +37,7 @@ export const LinkItemAction = ({title, link, click}) => {
     <ul className="nonemark">
       <li>
         <NavLink to={link} onClick={click}>{title}</NavLink>
-        {/* <a href={link} onClick={click}>{title}</a> */}
       </li>
     </ul>
   )
 };
-
-// const navInstance = (
-//   <Nav bsStyle="pills" activeKey={1} onSelect={handleSelect}>
-//     <NavItem eventKey={1} href="/home">NavItem 1 content</NavItem>
-//     <NavItem eventKey={2} title="Item">NavItem 2 content</NavItem>
-//     <NavItem eventKey={3} disabled>NavItem 3 content</NavItem>
-//   </Nav>
-// );

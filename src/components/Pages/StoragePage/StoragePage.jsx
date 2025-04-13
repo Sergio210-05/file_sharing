@@ -1,16 +1,14 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { getUserInfo } from '../../../utils'
+import { getCSRF, getUserInfo } from '../../../utils'
 import { serverURL, storageURL, userInfoURL } from '../../../URLs/urls'
 import axios from 'axios'
 import { FileItem } from '../../FileItem/FileItem'
 import { UploadItem } from '../../UploadItem/UploadItem'
 
 export const StoragePage = ({ memberId=0 }) => {
-  console.log(memberId)
+  // console.log(memberId)
   const [files, setFiles] = useState([])
-  // const [userId, setUserId] = useState(memberId > 0 ? memberId : userId)
-  // const [filesGet, setFilesGet] = useState(0)
-  // const calledOnce = useRef(false)
+  const [isCsrf, setIsCsrf] = useState(null)
 
   const getData = async (iserId) => {
     await axios.get(serverURL + storageURL, { 
@@ -23,12 +21,9 @@ export const StoragePage = ({ memberId=0 }) => {
       },
     })
     .then((res) => {
-      // console.log(res.data)
-      // console.log(files)
+      // console.log(res.data.data)
       console.log('Получен список файлов')
-      setFiles(res.data)
-      
-      // setFilesGet(res.data.length)
+      setFiles(res.data.data)
     })
     .catch((err) => {
       console.error(err)
@@ -36,15 +31,9 @@ export const StoragePage = ({ memberId=0 }) => {
   }
 
   useEffect(() => {
+    getCSRF(setIsCsrf)
     getData(memberId)
   }, [memberId])
-
-  // useEffect(() => {
-  //   if (!calledOnce.current) {
-  //     getData(memberId)
-  //     calledOnce.current = true
-  //   }
-  // }, [memberId])
 
   return (
     <>
@@ -61,11 +50,15 @@ export const StoragePage = ({ memberId=0 }) => {
           </div>
         </div>
         <div className="table-tbody">
-          {files.length === 0 ?
+          {files.length !== 0 ?
             files.map((fileData, index) => {
-              return(<FileItem key={index} fileData={fileData}/>)
+              return(<FileItem 
+                key={index} 
+                fileData={fileData} 
+                csrfToken={isCsrf}
+                resetFiles={() => getData(memberId)}
+                />)
             })
-          // 'Список файлов получен'
           : 'У Вас ещё нет загруженных файлов'}
         </div>
 

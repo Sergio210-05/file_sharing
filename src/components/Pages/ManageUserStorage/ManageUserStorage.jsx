@@ -5,20 +5,19 @@ import { StoragePage } from '../StoragePage/StoragePage'
 
 export const ManageUserStorage = () => {
   const params = useParams()
-  const id = params.id
+  // const id = params.id
+  // const [id, setId] = useState(params.id)
   const [memberInfo, setMemberInfo] = useState({})
 
   useEffect(() => {
-    getUserInfo(id, setMemberInfo)
+    getUserInfo(params.id, setMemberInfo)
   }, [])
-
-  // console.log(memberInfo)
 
 
   return (
     <>
       <div>Файлы пользователя {memberInfo.login}</div>
-      <StoragePage memberId={memberInfo.id}/>
+      <StoragePage memberId={params.id}/>
     </>
 
   )

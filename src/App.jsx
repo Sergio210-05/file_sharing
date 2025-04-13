@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { PageHeader } from "./components/PageHeader/PageHeader";
 import { PageMain } from "./components/PageMain/PageMain";
 import { PageNav } from "./components/PageNav/PageNav";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { stateSelector } from './redux/selectors';
 
 function App() {

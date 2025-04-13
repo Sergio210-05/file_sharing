@@ -15,14 +15,11 @@ export const DownloadPage = () => {
       },})
     .then((res) => {
       console.log(res)
-      // return res.data
       const href = URL.createObjectURL(res.data)
       const link = document.createElement('a')
-      // const originalTitle = res.data.filename
       const contentDisposition = res.headers['content-disposition']
       const reg = new RegExp('filename="(.*)"')
       const originalTitle = contentDisposition.match(reg)[1]
-      // console.log(originalTitle)
       link.href = href
       link.setAttribute('download', originalTitle)
       document.body.appendChild(link)
@@ -35,7 +32,6 @@ export const DownloadPage = () => {
       console.error(err)
     })
   }
-  // download()
   useEffect(() => {download()}, [])
 
   return (
