@@ -1,4 +1,4 @@
-const serverURL = 'http://localhost:8000'
+const serverURL = 'http://95.163.221.194:8000'
 const mainURL = '/'
 const csrfURL = '/api/csrf/'
 const loginURL = '/api/login/'
