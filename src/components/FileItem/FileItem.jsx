@@ -106,6 +106,26 @@ export const FileItem = ({fileData, csrfToken, resetFiles}) => {
     alert('Ссылка скопирована')
   }
 
+  const copyLinkHandlerHTTP = async () => {
+    const downloadLink = baseURL + downloadURL + storage_title
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(downloadLink);
+      alert('Ссылка скопирована')
+    } else {
+      const textarea = document.createElement('textarea');
+      textarea.value = downloadLink;
+  
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-99999999px';
+      document.body.prepend(textarea);
+      textarea.select();
+  
+      document.execCommand('copy');
+      textarea.remove();
+      alert('Ссылка скопирована')
+    }
+  }
+
   const testHandler = () => {
     console.log('Тестовая отправка')
     console.log(newFileName)
@@ -131,14 +151,12 @@ export const FileItem = ({fileData, csrfToken, resetFiles}) => {
         <div className='table-th'>{size}</div>
         <div className='table-th'>{upload_date}</div>
         <div className='table-th'>{last_download}</div>
-        <div className='table-th'>
-          <a href={link}>{link}</a>
-        </div>
+        <div className='table-th'>{link}</div>
         <div className='table-th'>{comment}</div>
         <div className='table-th'>
           <button className='file__item__button' onClick={downloadFileHandler}>Скачать</button>
           <button className='file__item__button' onClick={openModal}>Переименовать</button>
-          <button className='file__item__button' onClick={copyLinkHandler}>Сформировать ссылку</button>
+          <button className='file__item__button' onClick={copyLinkHandlerHTTP}>Сформировать ссылку</button>
           <button className='file__item__button' onClick={deleteFileHandler}>Удалить</button>
         </div>
         <Modal isOpen={modalIsOpen} onRequestClose={closeModal} appElement={document.getElementById('app')}>

@@ -1,8 +1,26 @@
-# React + Vite
+# Дипломная работа для fullstack-разработчика - облачное хранилище
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Frontend
+Frontend собран для IP адресса сервера 95.163.221.194.
 
-Currently, two official plugins are available:
+Чтобы запустить проект на собственном сервере необходимо указать новый IP адресс в переменной serverURL файла "src/URLs/urls.js".
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Для этого скопируйте данный репозиторий на локальный компьютер:
+```bash
+git clone https://github.com/Sergio210-05/file_sharing.git frontend  
+```
+В в папке src/URLs/ откройте файл urls.js и поменяйте значение константы serverURL:
+```bash
+nano frontend/file_sharing/src/URLs/urls.js
+```
+Вместо 95.163.221.194 укадите IP адресс Вашего сервера.
+
+Пересоберите проект командой:
+```bash
+npm run build
+```
+Сохраните проект в Вашем репозитории на GitHUb и приступайте к запуску backend.
+
+## Backend
+Код серверной части приложения с инструкцией по развёртыванию на сервере находится по ссыдке:  
+https://github.com/Sergio210-05/file_sharing_backend.git
