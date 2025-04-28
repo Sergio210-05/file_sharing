@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import { getCSRF, getCookie } from '../../utils'
 import { FileNameChangeItem } from '../FileNameChangeItem/FileNameChangeItem';
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
@@ -15,6 +16,7 @@ export const FileItem = ({fileData, csrfToken, resetFiles}) => {
   const [newFileName, setNewFileName] = useState('')
   const [newComment, setNewComment] = useState('')
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const navigate = useNavigate()
 
   // const csrfToken = getCookie('csrftoken')
   // console.log(csrfToken)
@@ -95,6 +97,7 @@ export const FileItem = ({fileData, csrfToken, resetFiles}) => {
       console.log('Параметры файла изменены')
       // console.log(res.data)
       resetFiles()
+      navigate(storageURL)
     })
     .catch((err) => {
       console.error(err)

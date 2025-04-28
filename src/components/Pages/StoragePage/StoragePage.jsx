@@ -4,11 +4,13 @@ import { serverURL, storageURL, userInfoURL } from '../../../URLs/urls'
 import axios from 'axios'
 import { FileItem } from '../../FileItem/FileItem'
 import { UploadItem } from '../../UploadItem/UploadItem'
+import { useNavigate } from 'react-router-dom'
 
 export const StoragePage = ({ memberId=0 }) => {
   // console.log(memberId)
   const [files, setFiles] = useState([])
   const [isCsrf, setIsCsrf] = useState(null)
+  const navigate = useNavigate()
 
   const getData = async (iserId) => {
     await axios.get(serverURL + storageURL, { 
@@ -22,8 +24,13 @@ export const StoragePage = ({ memberId=0 }) => {
     })
     .then((res) => {
       // console.log(res.data.data)
-      console.log('Получен список файлов')
-      setFiles(res.data.data)
+      if (res.data && res.data.length != 0) {
+        console.log('Получен список файлов')
+        setFiles(res.data.data)
+      }
+      if (res.data.length === 0) {
+        navigate(storageURL)
+      }
     })
     .catch((err) => {
       console.error(err)
