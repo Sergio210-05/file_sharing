@@ -3,8 +3,8 @@ import './FileNameChangeItem.css'
 
 export const FileNameChangeItem = ({id, title, comment, setNewFileName, setNewComment, submitHandler, cancel}) => {
 
-  let newFileName = ''
-  let newComment = ''
+  let newFileName = title
+  let newComment = comment
 
   useEffect(() => {
     return () => {

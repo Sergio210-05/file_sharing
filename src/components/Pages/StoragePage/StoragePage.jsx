@@ -27,9 +27,10 @@ export const StoragePage = ({ memberId=0 }) => {
       if (res.data && res.data.length != 0) {
         console.log('Получен список файлов')
         setFiles(res.data.data)
-      }
-      if (res.data.length === 0) {
+      } else if (res.data.length === 0) {
         navigate(storageURL)
+      } else {
+        console.warn('Ответ не содержит поле data')
       }
     })
     .catch((err) => {

@@ -97,7 +97,7 @@ export const FileItem = ({fileData, csrfToken, resetFiles}) => {
       console.log('Параметры файла изменены')
       // console.log(res.data)
       resetFiles()
-      navigate(storageURL)
+      navigate('/api/storage/')
     })
     .catch((err) => {
       console.error(err)
